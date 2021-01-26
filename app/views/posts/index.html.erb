@@ -4,6 +4,16 @@
 
 <h1>Members Only Posts</h1>
 
+<% @post.each do |post| %>
+  <% if signed_in? %>
+    <p class="float-right">
+      Posted by:
+      <%= post.user.name %>
+    </p>
+  <% end %>
+  <h4 class="float-left"><%=post.title %></h4> 
+  <p class="clear"><%= post.body %></p>
+<% end %> 
 
 
 <% if signed_in? %>
