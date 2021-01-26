@@ -12,7 +12,12 @@
 
   <body>
     <div id="user_header">
-    <%= link_to "Sign Up", new_user_path %>
+      <% if signed_in? %>
+        <%= link_to 'Sign out', destroy_user_session_url %>
+      <% else %>
+        <%= link_to 'Sign in', new_user_session_url %>
+        <%= link_to "Sign Up", new_user_path %>
+      <% end %>
     </div>
     <%= yield %>
   </body>

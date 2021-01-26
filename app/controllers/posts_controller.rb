@@ -16,7 +16,7 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-    @post.user_id = current_user.id
+    @post.user_id = current_user
     @post.save
     redirect_to root_path
   end
@@ -33,9 +33,26 @@ class PostsController < ApplicationController
     params.require(:post).permit(:title, :body)
   end
 
+  #def current_user
+  #  return unless session[:user_id]
+  #  @current_user ||= User.find(session[:user_id])
+  #end
+
+  def current_user?(user)
+    user == current_user
+  end
+    
+  # Returns the current logged-in user (if any).
   def current_user
-    return unless session[:user_id]
-    @current_user ||= User.find(session[:user_id])
+    if (user_id = session[:user_id])
+      @current_user ||= User.find_by(id: user_id)
+    elsif (user_id = cookies.signed[:user_id])
+      user = User.find_by(id: user_id)
+    end
+    if user && user.authenticated?(:remember, cookies[:remember_token])
+      log_in user
+      @current_user = user
+    end
   end
 
   def logged_in?
