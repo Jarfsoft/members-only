@@ -1,9 +1,19 @@
 
-<%= form_for @post, url: {action: "create"}, html: {class: "nifty_form"} do |f| %>
-  <div>
+<h1>New Post</h1>
+
+<%= form_for @post do |f| %>
+
+<p>
+  <%= f.label :title %> <br/>
   <%= f.text_field :title %>
-  <%= f.text_area :body, size: "60x12" %>
-  <%= f.submit "Create" %>
-  </div>
+</p>
+<p>
+  <%= f.label :body %><br />
+  <%= f.text_area :body %>
+</p>
+
+<p>
+  <%= f.submit %>
+</p>
 
 <% end %>

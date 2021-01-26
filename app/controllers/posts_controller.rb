@@ -2,10 +2,14 @@ include Devise::Controllers::Helpers
 
 class PostsController < ApplicationController
 
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :signed_in_user, only: [:new, :create]
 
   def new
     @post = Post.new
+  end
+
+  def index
+    @Post = Post.all
   end
 
   def show; end
@@ -19,8 +23,10 @@ class PostsController < ApplicationController
 
   private
 
-  def require_login
-
+  def signed_in_user
+    unless signed_in?
+      redirect_to new_user_session_url
+    end
   end
 
   def post_params
