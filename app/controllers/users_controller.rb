@@ -3,6 +3,10 @@ class UsersController < ApplicationController
     @user = User.new
   end
 
+  def index
+    @User = Post.all
+  end
+
   def show; end
 
   def create
@@ -18,6 +22,6 @@ class UsersController < ApplicationController
 
   def user_params
     #Whitelisting for strong parameters
-    params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email, :password,:password_confirmation)
   end
 end
