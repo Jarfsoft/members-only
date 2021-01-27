@@ -62,7 +62,6 @@ class PostsController < ApplicationController
       @post = Post.new
       render 'new'
     end
-
   end
 
   # Only allow a list of trusted parameters through.
