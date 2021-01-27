@@ -1,78 +1,70 @@
-include Devise::Controllers::Helpers
-
 class PostsController < ApplicationController
+  before_action :set_post, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
 
-  before_action :signed_in_user, only: [:new, :create]
+  # GET /posts or /posts.json
+  def index
+    @posts = Post.all
+  end
 
+  # GET /posts/1 or /posts/1.json
+  def show
+  end
+
+  # GET /posts/new
   def new
     @post = Post.new
   end
 
-  def index
-    @post = Post.all
+  # GET /posts/1/edit
+  def edit
   end
 
-  def show; end
-
+  # POST /posts or /posts.json
   def create
-    #@post = Post.new(post_params)
-    #@current_user = current_user
-    @post = Post.new(post_params)
-    @post.user_id = current_user
-    #@post = current_user.posts.build(posts_params) 
-    @post.save
-    redirect_to root_path
+    @post = current_user.posts.build(post_params)
+
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to @post, notice: "Post was successfully created." }
+        format.json { render :show, status: :created, location: @post }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /posts/1 or /posts/1.json
+  def update
+    respond_to do |format|
+      if @post.update(post_params)
+        format.html { redirect_to @post, notice: "Post was successfully updated." }
+        format.json { render :show, status: :ok, location: @post }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /posts/1 or /posts/1.json
+  def destroy
+    @post.destroy
+    respond_to do |format|
+      format.html { redirect_to posts_url, notice: "Post was successfully destroyed." }
+      format.json { head :no_content }
+    end
   end
 
   private
-
-  def signed_in_user
-    unless signed_in?
-      redirect_to new_user_session_url
+    # Use callbacks to share common setup or constraints between actions.
+    def set_post
+      @post = Post.find(params[:id])
     end
-  end
 
-  def post_params
-    params.require(:post).permit(:title, :body)
-  end
-
-  #def current_user
-  #  return unless session[:user_id]
-  #  @current_user ||= User.find(session[:user_id])
-  #end
-
-  # def current_user?(user)
-  #  user == current_user
-  # end
-    
-  # Returns the current logged-in user (if any).
-  def current_user
-    if (user_id = session[:user_id])
-      @current_user ||= User.find_by(id: user_id)
-    elsif (user_id = cookies.signed[:user_id])
-      user = User.find_by(id: user_id)
+    # Only allow a list of trusted parameters through.
+    def post_params
+      params.permit(:title, :body)
     end
-    if user && user.authenticated?(:remember, cookies[:remember_token])
-      log_in user
-      @current_user = user
-    end
-  end
-
-  def logged_in?
-    !!session[:user_id]
-  end
-
-
-=begin
-  def require_login
-    unless logged_in?
-      flash[:error] = "You must be logged in to access this section"
-      redirect_to new_login_url # halts request cycle
-    end
-  end
-
-  def logged_in?
-    !current_user.nil?
-  end
-=end
 end
