@@ -3,7 +3,7 @@
 
 > Welcome to our **Ruby on Rails ** built mainly with `Ruby` and `Ruby on Rails`. The main purpose of this app is to practice *validations, associations and migrations* in `Ruby on Rails`
 
-![screenshot](/images/./screenshot.png)
+![screenshot](./images/screenshot.png)
 
 ### Built With
 
@@ -15,6 +15,31 @@
 - Devise
 
 ### Setup
+
+- Clone or download the project to your local machine. If necessary, unzip the file.
+
+- Change to the project's root directory
+```
+cd members-only
+```
+
+- Install the required gems
+```
+bundle install
+```
+
+- Setup the database
+```
+rails db:create
+rails db:migrate
+```
+
+- Start up the Rails server
+```
+rails server
+```
+
+- Open you browser and access your app on the address
 
 NOTE: You need to have `Bundler` installed and, of course, `Ruby`. If don't have `Bundler` installed you can install it with `gem install bundler`.
 
