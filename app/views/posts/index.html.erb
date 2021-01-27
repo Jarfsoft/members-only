@@ -6,15 +6,16 @@
   <% if signed_in? %>
     <p class="float-right">
       Posted by:
-      <%= post.user.name %>
+      <%= post.user.email %>
     </p>
+    <h4 class="float-left"><%=post.title %></h4>
+    <p class="clear"><%= post.body %></p>
     <p>
     <%= link_to 'Edit', edit_post_path(post) %>
     <%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %>
     </p>
   <% end %>
-  <h4 class="float-left"><%=post.title %></h4>
-  <p class="clear"><%= post.body %></p>
+
 <% end %>
 
 
