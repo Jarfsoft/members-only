@@ -1,0 +1,17 @@
+<% @posts.each do |post| %>
+  <% if signed_in? %>
+    <p class="float-right">
+      Posted by:
+      <%= post.user.email %>
+    </p>
+    <h4 class="float-left"><%=post.title %></h4>
+    <p class="clear"><%= post.body %></p>
+    <p>
+    <%= show_edit_post(post) %>
+    <%= show_destroy_post(post) %>
+    </p>
+  <% end %>
+
+<% end %>
+
+
