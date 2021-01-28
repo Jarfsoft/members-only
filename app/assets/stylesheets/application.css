@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
- #user_header {
+#user_header {
   text-align: center;
   vertical-align: middle;
   line-height: 15px;
